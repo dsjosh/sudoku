@@ -124,7 +124,7 @@ def process_single_sudoku_command(command: str):
         usergrid[row][col] = int(value)
         print(StringConstants.ACCEPT_MOVE)
         print_grid(usergrid)
-        if check_grid(usergrid) == StringConstants.GOOD:
+        if check_grid(usergrid) == StringConstants.GOOD and all(0 not in row for row in usergrid):
             reset_game()
         return
     else:
