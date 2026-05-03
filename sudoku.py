@@ -15,7 +15,7 @@ def parse_args():
 
 def generate_grid():
     grid = []
-    base_row = [1,2,3,4,5,6,7,8,9]
+    base_row = list(range(1, 10))
     for band_start in range(3): #repeat 3 times (3 rows per loop) to complete the set of 9 rows total
         row = base_row[band_start:] + base_row[:band_start]
         for _ in range(3): #repeat 3 times (1 row per loop) to complete the set of 3 rows
@@ -35,6 +35,41 @@ def string_to_grid(s):
         grid.append(row)
     return grid
 
+def check_grid(grid):
+    # Check rows
+    for r in range(9):
+        seen = {}
+        for c in range(9):
+            val = grid[r][c]
+            if val == 0:
+                continue
+            if val in seen:
+                return StringConstants.exist_row(chr(ord('A') + r), str(val))
+            seen[val] = True
+    # Check columns
+    for c in range(9):
+        seen = {}
+        for r in range(9):
+            val = grid[r][c]
+            if val == 0:
+                continue
+            if val in seen:
+                return StringConstants.exist_col(str(c + 1), str(val))
+            seen[val] = True
+    # Check 3x3 subgrids
+    for box_row in range(0, 9, 3):
+        for box_col in range(0, 9, 3):
+            seen = {}
+            for r in range(box_row, box_row + 3):
+                for c in range(box_col, box_col + 3):
+                    val = grid[r][c]
+                    if val == 0:
+                        continue
+                    if val in seen:
+                        return StringConstants.exist_subgrid(str(val))
+                    seen[val] = True
+    return StringConstants.GOOD
+
 def process_single_sudoku_command(command: str):
     global usergrid, initial_usergrid
     if len(command) == 0:
@@ -45,11 +80,14 @@ def process_single_sudoku_command(command: str):
         print(StringConstants.ACCEPT_INPUT)
         print(StringConstants.QUIT)
         sys.exit(0)
-    if command.endswith("CLEAR"):
+    if command == StringConstants.CHECK_INPUT:
+        print(check_grid(usergrid))
+        return
+    elif command.endswith(StringConstants.CLEAR_INPUT):
         cell = command[:-5]
         row_char = cell[0]
         col_char = cell[1]
-        if row_char not in "ABCDEFGHI" or col_char not in "123456789":
+        if row_char not in StringConstants.ROWS or col_char not in StringConstants.COLS:
             print(StringConstants.invalid_cell(cell))
             return
         row = ord(row_char) - ord('A')
@@ -69,10 +107,10 @@ def process_single_sudoku_command(command: str):
         value = command[2]
         row_char = cell[0]
         col_char = cell[1]
-        if row_char not in "ABCDEFGHI" or col_char not in "123456789": # validate cell
+        if row_char not in StringConstants.ROWS or col_char not in StringConstants.COLS: # validate cell
             print(StringConstants.invalid_cell(cell))
             return
-        if value not in "123456789": # validate value
+        if value not in StringConstants.COLS: # validate value
             print(StringConstants.invalid_value(value))
             return
         row = ord(row_char) - ord('A')
@@ -86,6 +124,8 @@ def process_single_sudoku_command(command: str):
         usergrid[row][col] = int(value)
         print(StringConstants.ACCEPT_MOVE)
         print_grid(usergrid)
+        if check_grid(usergrid) == StringConstants.GOOD:
+            reset_game()
         return
     else:
         print(StringConstants.UNRECOGNISED)
@@ -117,6 +157,14 @@ def print_grid(grid):
                 formatted_row.append(str(cell))
         print(f"  {row_label} " + " ".join(formatted_row))
     print("")
+
+def reset_game():
+    global usergrid
+    input(StringConstants.SUCCESS)
+    print(StringConstants.WELCOME)
+    grid = generate_grid()
+    usergrid = ensure_only_30_filled(grid)
+    print_grid(usergrid)
 
 def main():
     global usergrid

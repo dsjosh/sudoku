@@ -14,6 +14,8 @@ class StringConstants:
     CHECK_INPUT = "check"
     QUIT_INPUT = "quit"
     CLEAR_INPUT = "clear"
+    ROWS = "ABCDEFGHI"
+    COLS = "123456789"
 
     @staticmethod
     def not_filled(cell: str) -> str:
