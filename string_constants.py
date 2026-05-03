@@ -10,10 +10,10 @@ class StringConstants:
     CURRENT = "Current grid:"
     SUCCESS = "You have successfully completed the Sudoku puzzle!\nPress any key to play again...\n"
     QUIT = "Quitting the game!\nHave a nice day...\n"
-    HINT_INPUT = "hint"
-    CHECK_INPUT = "check"
-    QUIT_INPUT = "quit"
-    CLEAR_INPUT = "clear"
+    CHECK_INPUT = "CHECK"
+    HINT_INPUT = "HINT"
+    QUIT_INPUT = "QUIT"
+    CLEAR_INPUT = "CLEAR"
     ROWS = "ABCDEFGHI"
     COLS = "123456789"
     HINT_BLOCKED = "You can only get a hint after fixing all rule violations. Check rule violations via the check command.\n"
@@ -21,27 +21,27 @@ class StringConstants:
 
     @staticmethod
     def not_filled(cell: str) -> str:
-        return f"Invalid move. Cell {cell} is not filled.\n"
+        return f"\nInvalid move. Cell {cell} is not filled.\n"
 
     @staticmethod
     def prefilled(cell: str) -> str:
-        return f"Invalid move. {cell} is pre-filled.\n"
+        return f"\nInvalid move. {cell} is pre-filled.\n"
 
     @staticmethod
     def filled(cell: str) -> str:
-        return f"Invalid move. {cell} is filled. You may choose to clear it.\n"
+        return f"\nInvalid move. {cell} is filled. You may choose to clear it.\n"
 
     @staticmethod
     def invalid_cell(cell: str) -> str:
-        return f"Invalid move. Cell {cell} doesn't exist.\n"
+        return f"\nInvalid move. Cell {cell} doesn't exist.\n"
 
     @staticmethod
     def invalid_value(value: str) -> str:
-        return f"Invalid move. Number {value} isn't between 1-9.\n"
+        return f"\nInvalid move. Number {value} isn't between 1-9.\n"
 
     @staticmethod
     def hint(cell: str, number: str) -> str:
-        return f"Hint: Cell {cell} = {number}"
+        return f"Hint: Cell {cell} = {number}\n"
 
     @staticmethod
     def exist_row(row: str, number: str) -> str:
