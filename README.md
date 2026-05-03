@@ -1,5 +1,6 @@
 # TODO
 - Need to randomise the sudoku grid generation (use the swap method).
+- Do TDD unit tests
 - Complete this assignment by 4th May 3pm.
 
 # Instructions
