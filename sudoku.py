@@ -1,6 +1,7 @@
 from string_constants import StringConstants
 import sys
 from collections import deque
+import random
 
 def parse_args():
     args = sys.argv[1:]
@@ -41,8 +42,30 @@ def process_single_sudoku_command(command: str):
     else:
         print(f"Processing command: {command}")
 
+def ensure_only_30_filled(grid):
+    # Flatten all positions (row, col)
+    positions = [(r, c) for r in range(9) for c in range(9)]
+    # Randomly pick 30 unique positions to KEEP
+    keep_positions = set(random.sample(positions, 30))
+    # Set everything else to 0
+    for r in range(9):
+        for c in range(9):
+            if (r, c) not in keep_positions:
+                grid[r][c] = 0
+    return grid
+
 def print_grid(grid):
-    pass
+    print("    " + " ".join(str(i) for i in range(1, 10))) # Column header
+    for idx, row in enumerate(grid):
+        row_label = chr(ord('A') + idx)
+        formatted_row = []
+        for cell in row:
+            if cell == 0:
+                formatted_row.append("_")
+            else:
+                formatted_row.append(str(cell))
+        print(f"  {row_label} " + " ".join(formatted_row))
+    print("")
 
 def main():
     print(StringConstants.WELCOME)
@@ -50,14 +73,16 @@ def main():
     interactive = grid_raw is None
     if interactive: #For actual user
         grid = generate_grid()
-        print_grid(grid)
+        usergrid = ensure_only_30_filled(grid)
+        print_grid(usergrid)
         while True:
             command = input(StringConstants.PROMPT).strip()
             if command:
                 process_single_sudoku_command(command)
     else: #For TDD
         grid = string_to_grid(grid_raw)
-        print_grid(grid)
+        usergrid = ensure_only_30_filled(grid)
+        print_grid(usergrid)
         while commands:
             process_single_sudoku_command(commands.popleft())
 
