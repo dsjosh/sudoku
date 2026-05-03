@@ -23,6 +23,30 @@ def generate_grid():
             front = row[:3]
             back = row[3:]
             row = back + front
+    #Random algo 1: Simple repalce
+    for _ in range(10):
+        a, b = random.sample(range(1, 10), 2)
+        for r in range(9):
+            for c in range(9):
+                if grid[r][c] == a:
+                    grid[r][c] = b
+                elif grid[r][c] == b:
+                    grid[r][c] = a
+    #Random algo 2: row swap
+    bands = [[0, 1, 2],[3, 4, 5],[6, 7, 8]]
+    b1, b2 = random.sample([0, 1, 2], 2)
+    for i in range(3):
+        r1 = bands[b1][i]
+        r2 = bands[b2][i]
+        grid[r1], grid[r2] = grid[r2], grid[r1]
+    #Random algo 3: column swap
+    stacks = [[0, 1, 2],[3, 4, 5],[6, 7, 8]]
+    s1, s2 = random.sample([0, 1, 2], 2)
+    for i in range(3):
+        c1 = stacks[s1][i]
+        c2 = stacks[s2][i]
+        for r in range(9):
+            grid[r][c1], grid[r][c2] = grid[r][c2], grid[r][c1]
     return grid
 
 def grid_to_string(grid):
