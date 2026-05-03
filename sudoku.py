@@ -70,6 +70,20 @@ def check_grid(grid):
                     seen[val] = True
     return StringConstants.GOOD
 
+def get_hint(grid):
+    for r in range(9):
+        for c in range(9):
+            if grid[r][c] != 0:
+                continue
+            for num in range(1, 10):
+                # simulate placing number
+                grid[r][c] = num
+                if check_grid(grid) == StringConstants.GOOD:
+                    grid[r][c] = 0
+                    return r, c, num
+                grid[r][c] = 0
+    return None
+
 def process_single_sudoku_command(command: str):
     global usergrid, initial_usergrid
     if len(command) == 0:
@@ -80,9 +94,22 @@ def process_single_sudoku_command(command: str):
         print(StringConstants.ACCEPT_INPUT)
         print(StringConstants.QUIT)
         sys.exit(0)
-    if command == StringConstants.CHECK_INPUT:
+    elif command == StringConstants.CHECK_INPUT:
         print(check_grid(usergrid))
         return
+    elif command == StringConstants.HINT_INPUT:
+        if check_grid(usergrid) == StringConstants.GOOD:
+            hint = get_hint(usergrid)
+            if hint is None:
+                print(StringConstants.DEAD_END)
+                return
+            r, c, num = hint
+            cell = chr(ord('A') + r) + str(c + 1)
+            print(StringConstants.hint(cell, str(num)))
+            return
+        else:
+            print(StringConstants.HINT_BLOCKED)
+            return
     elif command.endswith(StringConstants.CLEAR_INPUT):
         cell = command[:-5]
         row_char = cell[0]
@@ -100,6 +127,7 @@ def process_single_sudoku_command(command: str):
             return
         usergrid[row][col] = 0
         print(StringConstants.ACCEPT_INPUT)
+        print(StringConstants.CURRENT)
         print_grid(usergrid)
         return
     elif len(command) == 3: # handle fill command
@@ -123,6 +151,7 @@ def process_single_sudoku_command(command: str):
             return
         usergrid[row][col] = int(value)
         print(StringConstants.ACCEPT_MOVE)
+        print(StringConstants.CURRENT)
         print_grid(usergrid)
         if check_grid(usergrid) == StringConstants.GOOD and all(0 not in row for row in usergrid):
             reset_game()

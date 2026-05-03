@@ -3,39 +3,41 @@ class StringConstants:
 
     WELCOME = "Welcome to Sudoku!\n\nHere is your puzzle:"
     PROMPT = "Enter command (e.g., A3 4, C5 clear, hint, check, quit):\n"
-    ACCEPT_MOVE = "Move accepted.\n"
+    ACCEPT_MOVE = "\nMove accepted.\n"
     ACCEPT_INPUT = "Input accepted.\n"
     GOOD = "No rule violations detected.\n"
     UNRECOGNISED = "Unrecognised keyboard input. Please try again.\n"
     CURRENT = "Current grid:"
-    SUCCESS = "You have successfully completed the Sudoku puzzle!\nPress any key to play again..."
-    QUIT = "Quitting the game!\nHave a nice day..."
+    SUCCESS = "You have successfully completed the Sudoku puzzle!\nPress any key to play again...\n"
+    QUIT = "Quitting the game!\nHave a nice day...\n"
     HINT_INPUT = "hint"
     CHECK_INPUT = "check"
     QUIT_INPUT = "quit"
     CLEAR_INPUT = "clear"
     ROWS = "ABCDEFGHI"
     COLS = "123456789"
+    HINT_BLOCKED = "You can only get a hint after fixing all rule violations. Check rule violations via the check command.\n"
+    DEAD_END = "You have reached a dead end. Do some backtracking by clearing some cells.\n"
 
     @staticmethod
     def not_filled(cell: str) -> str:
-        return f"Invalid move. Cell {cell} is not filled."
+        return f"Invalid move. Cell {cell} is not filled.\n"
 
     @staticmethod
     def prefilled(cell: str) -> str:
-        return f"Invalid move. {cell} is pre-filled."
+        return f"Invalid move. {cell} is pre-filled.\n"
 
     @staticmethod
     def filled(cell: str) -> str:
-        return f"Invalid move. {cell} is filled. You may choose to clear it."
+        return f"Invalid move. {cell} is filled. You may choose to clear it.\n"
 
     @staticmethod
     def invalid_cell(cell: str) -> str:
-        return f"Invalid move. Cell {cell} doesn't exist."
+        return f"Invalid move. Cell {cell} doesn't exist.\n"
 
     @staticmethod
     def invalid_value(value: str) -> str:
-        return f"Invalid move. Number {value} isn't between 1-9."
+        return f"Invalid move. Number {value} isn't between 1-9.\n"
 
     @staticmethod
     def hint(cell: str, number: str) -> str:
@@ -43,12 +45,12 @@ class StringConstants:
 
     @staticmethod
     def exist_row(row: str, number: str) -> str:
-        return f"Number {number} already exists in Row {row}."
+        return f"Number {number} already exists in Row {row}.\n"
 
     @staticmethod
     def exist_col(col: str, number: str) -> str:
-        return f"Number {number} already exists in Column {col}."
+        return f"Number {number} already exists in Column {col}.\n"
 
     @staticmethod
     def exist_subgrid(number: str) -> str:
-        return f"Number {number} already exists in the same 3×3 subgrid."
+        return f"Number {number} already exists in the same 3×3 subgrid.\n"
